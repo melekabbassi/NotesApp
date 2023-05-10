@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +20,6 @@ import android.widget.EditText;
  */
 public class AddFragment extends Fragment {
 
-    private EditText notes;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +64,21 @@ public class AddFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add, container, false);
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
+        ExtendedFloatingActionButton extendedFloatingActionButton = view.findViewById(R.id.extended_fab);
+        extendedFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveNote();
+            }
+        });
+        return view;
+    }
+
+    private void saveNote() {
+        TextInputEditText noteET = requireView().findViewById(R.id.noteET);
+        String note = Objects.requireNonNull(noteET.getText()).toString().trim();
+
+        noteET.setText("");
     }
 }

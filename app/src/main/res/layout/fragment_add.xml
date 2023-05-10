@@ -3,39 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AddFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/noteIT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="20sp"
-        android:layout_marginEnd="20sp"
-        android:layout_marginTop="20sp"
-        android:layout_marginBottom="20sp"
-        android:textColorHint="?attr/colorPrimary"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:id="@+id/textInputLayout"
-        android:autofillHints="">
-
-        <EditText
+        android:hint="@string/note_hint"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+     
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/noteET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/take_your_notes_here"
+            android:gravity="start"
             android:inputType="textMultiLine"
-            android:gravity="top|start"
-            android:padding="10dp"
-            android:background="@android:color/transparent"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/editText"
-            android:autofillHints="" />
-
+            android:scrollbars="vertical"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        app:icon="@drawable/diskette"/>
 </FrameLayout>
