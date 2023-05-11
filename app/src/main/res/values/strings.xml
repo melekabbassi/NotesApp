@@ -62,4 +62,8 @@
     <string name="note_hint">Take your notes here</string>
     <string name="hello_home_fragment">Hello from HOME</string>
     <string name="hello_dashboard_fragment">Hello from DASHBOARD</string>
+    <string name="editButton">Edit</string>
+    <string name="deleteButton">Delete</string>
+    <string name="secondary_text">fffff</string>
+    <string name="title">Title</string>
 </resources>

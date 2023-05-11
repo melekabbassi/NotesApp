@@ -2,11 +2,15 @@ package com.example.notesapp;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +63,22 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        GridView gridView = view.findViewById(R.id.gridView);
+        ArrayList<Note> notes = new ArrayList<>();
+        // Add notes to the ArrayList
+        notes.add(new Note ("Note 1"));
+        notes.add(new Note ("Note 2"));
+        notes.add(new Note ("Note 3"));
+        notes.add(new Note ("Note 4"));
+        notes.add(new Note ("Note 5"));
+        notes.add(new Note ("Note 6"));
+        notes.add(new Note ("Note 7"));
+
+        NoteAdapter adapter = new NoteAdapter(requireContext(), notes);
+        gridView.setAdapter(adapter);
+        return view;
+        //return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }
