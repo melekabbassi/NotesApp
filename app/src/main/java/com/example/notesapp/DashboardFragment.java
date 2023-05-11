@@ -1,5 +1,6 @@
 package com.example.notesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,12 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DashboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class DashboardFragment extends Fragment {
+
+    private ExtendedFloatingActionButton fabLogout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +66,19 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        fabLogout = view.findViewById(R.id.extended_fab_logout);
+        fabLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), MainActivity.class));
+                requireActivity().finish();
+            }
+        });
+        return view;
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        //return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 }

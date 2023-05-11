@@ -2,6 +2,7 @@ package com.example.notesapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -9,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -75,6 +81,26 @@ public class HomeFragment extends Fragment {
         notes.add(new Note ("Note 5"));
         notes.add(new Note ("Note 6"));
         notes.add(new Note ("Note 7"));
+
+
+        // Read from the database firebase realtime database
+//        FirebaseDatabase.getInstance().getReference().child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot noteSnapshot : snapshot.getChildren()) {
+//                    Note note = noteSnapshot.getValue(Note.class);
+//                    notes.add(note);
+//                }
+//
+//                NoteAdapter adapter = new NoteAdapter(requireContext(), notes);
+//                gridView.setAdapter(adapter);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                System.out.println("The read failed: " + error.getCode());
+//            }
+//        });
 
         NoteAdapter adapter = new NoteAdapter(requireContext(), notes);
         gridView.setAdapter(adapter);

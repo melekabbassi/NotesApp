@@ -2,14 +2,18 @@ package com.example.notesapp;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -70,6 +74,8 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveNote();
+//                AppCompatActivity activity = (AppCompatActivity) requireActivity();
+//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, new HomeFragment()).addToBackStack(null).commit();
             }
         });
         return view;
@@ -79,6 +85,15 @@ public class AddFragment extends Fragment {
         TextInputEditText noteET = requireView().findViewById(R.id.noteET);
         String note = Objects.requireNonNull(noteET.getText()).toString().trim();
 
-        noteET.setText("");
+//        if (!note.isEmpty()) {
+//            DatabaseReference notesRef = FirebaseDatabase.getInstance().getReference().child("notes");
+//            String id = notesRef.push().getKey();
+//
+//            Note newNote = new Note(note);
+//            notesRef.child(Objects.requireNonNull(id)).setValue(newNote);
+//
+//            noteET.setText("");
+//            Toast.makeText(requireContext(), "Note saved", Toast.LENGTH_SHORT).show();
+//        }
     }
 }
