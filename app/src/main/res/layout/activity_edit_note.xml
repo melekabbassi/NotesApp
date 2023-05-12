@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".AddFragment">
+    tools:context=".EditNoteFragment">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/titleIT"
+        android:id="@+id/editTitleIT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/title_hint"
@@ -15,22 +15,22 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/titleET"
+            android:id="@+id/editTitleET"
             android:inputType="text"
             android:gravity="start"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/noteIT"
+        android:id="@+id/editNoteIT"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/note_hint"
         android:layout_marginTop="50dp"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-     
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/noteET"
+            android:id="@+id/editNoteET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
@@ -40,10 +40,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
+        android:id="@+id/edit_extended_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
-        app:icon="@drawable/diskette"/>
+        app:icon="@drawable/baseline_edit_24"/>
 </FrameLayout>

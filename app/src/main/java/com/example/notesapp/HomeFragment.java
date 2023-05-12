@@ -1,8 +1,11 @@
 package com.example.notesapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -25,6 +28,13 @@ import java.util.ArrayList;
  */
 public class HomeFragment extends Fragment {
 
+    private GridView gridView;
+    private ArrayList<Note> notes;
+    private NoteAdapter noteAdapter;
+    private DatabaseHelper databaseHelper;
+
+    private static final int EDIT_NOTE_REQUEST_CODE = 1;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,6 +48,9 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -59,10 +72,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        databaseHelper = new DatabaseHelper(requireContext());
     }
 
     @Override
@@ -71,40 +81,33 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        GridView gridView = view.findViewById(R.id.gridView);
-        ArrayList<Note> notes = new ArrayList<>();
-        // Add notes to the ArrayList
-        notes.add(new Note ("Note 1"));
-        notes.add(new Note ("Note 2"));
-        notes.add(new Note ("Note 3"));
-        notes.add(new Note ("Note 4"));
-        notes.add(new Note ("Note 5"));
-        notes.add(new Note ("Note 6"));
-        notes.add(new Note ("Note 7"));
+        gridView = view.findViewById(R.id.gridView);
+        notes = databaseHelper.getAllNotes();
+        noteAdapter = new NoteAdapter(requireContext(), getActivity() ,notes);
+        gridView.setAdapter(noteAdapter);
 
-
-        // Read from the database firebase realtime database
-//        FirebaseDatabase.getInstance().getReference().child("notes").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot noteSnapshot : snapshot.getChildren()) {
-//                    Note note = noteSnapshot.getValue(Note.class);
-//                    notes.add(note);
-//                }
-//
-//                NoteAdapter adapter = new NoteAdapter(requireContext(), notes);
-//                gridView.setAdapter(adapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                System.out.println("The read failed: " + error.getCode());
-//            }
-//        });
-
-        NoteAdapter adapter = new NoteAdapter(requireContext(), notes);
-        gridView.setAdapter(adapter);
         return view;
-        //return inflater.inflate(R.layout.fragment_home, container, false);
+
+//        GridView gridView = view.findViewById(R.id.gridView);
+//        ArrayList<Note> notes = new ArrayList<>();
+        // Add notes to the ArrayList
+//        notes.add(new Note ("Note 1", "This is note 1"));
+//        notes.add(new Note ("Note 2", "This is note 2"));
+//        notes.add(new Note ("Note 3", "This is note 3"));
+//        notes.add(new Note ("Note 4", "This is note 4"));
+//        notes.add(new Note ("Note 5", "This is note 5"));
+//        notes.add(new Note ("Note 6", "This is note 6"));
+//        notes.add(new Note ("Note 7", "This is note 7"));
+//        notes.add(new Note ("Note 8", "This is note 8"));
+//        notes.add(new Note ("Note 9", "This is note 9"));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            notes = databaseHelper.getAllNotes();
+            noteAdapter.notifyDataSetChanged();
+        }
     }
 }

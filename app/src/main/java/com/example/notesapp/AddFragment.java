@@ -1,5 +1,7 @@
 package com.example.notesapp;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,8 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class AddFragment extends Fragment {
+
+    private DatabaseHelper databaseHelper;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +59,16 @@ public class AddFragment extends Fragment {
         return fragment;
     }
 
+    public static AddFragment newInstance(int id, String title, String content) {
+        AddFragment fragment = new AddFragment();
+        Bundle args = new Bundle();
+        args.putInt(DatabaseHelper.COLUMN_ID, id);
+        args.putString(DatabaseHelper.COLUMN_TITLE, title);
+        args.putString(DatabaseHelper.COLUMN_CONTENT, content);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +88,6 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveNote();
-//                AppCompatActivity activity = (AppCompatActivity) requireActivity();
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, new HomeFragment()).addToBackStack(null).commit();
             }
         });
         return view;
@@ -83,17 +95,30 @@ public class AddFragment extends Fragment {
 
     private void saveNote() {
         TextInputEditText noteET = requireView().findViewById(R.id.noteET);
+        TextInputEditText titleET = requireView().findViewById(R.id.titleET);
+        String title = Objects.requireNonNull(titleET.getText()).toString().trim();
         String note = Objects.requireNonNull(noteET.getText()).toString().trim();
 
-//        if (!note.isEmpty()) {
-//            DatabaseReference notesRef = FirebaseDatabase.getInstance().getReference().child("notes");
-//            String id = notesRef.push().getKey();
-//
-//            Note newNote = new Note(note);
-//            notesRef.child(Objects.requireNonNull(id)).setValue(newNote);
-//
-//            noteET.setText("");
-//            Toast.makeText(requireContext(), "Note saved", Toast.LENGTH_SHORT).show();
-//        }
+        databaseHelper = new DatabaseHelper(requireContext());
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_TITLE, title);
+        values.put(DatabaseHelper.COLUMN_CONTENT, note);
+
+        long result = db.insert(DatabaseHelper.TABLE_NAME, null, values);
+
+        db.close();
+
+        if (result != -1) {
+            Toast.makeText(requireContext(), "Note saved", Toast.LENGTH_SHORT).show();
+            titleET.setText("");
+            noteET.setText("");
+            requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, new HomeFragment()).commit();
+        } else {
+            Toast.makeText(requireContext(), "Failed to save note", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
